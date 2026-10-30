@@ -1,0 +1,66 @@
+// Drawer docked on the left edge, mirroring the event drawer (.card-stack.drawer)
+// on the right. Collapsed it is pushed off-screen, leaving only its tab visible.
+.side-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: $timeline-height;
+  width: 25vw; // a quarter of the screen width
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: $offwhite;
+  color: $black;
+  z-index: $header;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease, width 0.3s ease, box-shadow 0.3s ease;
+
+  &.open {
+    transform: translateX(0);
+    box-shadow: 10px 0 38px rgba(0, 0, 0, 0.3);
+  }
+
+  // Second step: two thirds of the screen width
+  &.expanded {
+    width: calc(100vw * 2 / 3);
+  }
+
+  @media screen and (max-width: 600px) {
+    width: calc(100vw - #{$drawer-tab-width});
+  }
+
+  .side-drawer-tab {
+    position: absolute;
+    top: 65%; // below the right drawer's tab (35%) so they never overlap
+    right: -$drawer-tab-width;
+    width: $drawer-tab-width;
+    height: 64px;
+    margin-top: -32px;
+    padding: 0;
+    border: 0;
+    border-radius: 0 6px 6px 0;
+    background: $black;
+    color: $offwhite;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      background: $darkgrey;
+    }
+
+    // Disabled while the other drawer fills the map
+    &:disabled {
+      @include drawer-tab-disabled;
+    }
+  }
+
+  .side-drawer-content {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+}

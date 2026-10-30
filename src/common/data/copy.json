@@ -110,6 +110,7 @@
       "location_title": "Ubicación",
       "summary_title": "Resumen",
       "header": "eventos seleccionados",
+      "empty": "Haz clic en un punto del mapa o de la línea de tiempo para ver los detalles del evento.",
       "unknown_location": "Ubicación desconocida",
       "unknown_time": "Día y hora desconocida",
       "timestamp": "Día y hora",
@@ -214,10 +215,6 @@
           "title": "Download events",
           "description": "Export the most recent available events in different formats.",
           "formats": {
-            "api": {
-              "label": "API",
-              "description": "An API endpoint where you can always fetch the entire dataset in JSON format with tools like curl. Useful for integrating the data in other services and visualizaitons."
-            },
             "csv": {
               "label": "CSV",
               "description": "CSV file where sources and filters are concatenated into a single column each due to data structure limitations."
@@ -245,6 +242,7 @@
     },
     "cardstack": {
       "header": "selected events",
+      "empty": "Click a point on the map or the timeline to see the event details.",
       "timestamp": "Day and time",
       "unknown_location": "Unknown location",
       "estimated": "estimated",

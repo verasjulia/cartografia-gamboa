@@ -107,6 +107,11 @@
   }
 }
 
+// Keep the map attribution visible right above the timeline, not under it
+.leaflet-bottom {
+  bottom: calc(#{$timeline-height} + 1px);
+}
+
 /*
 * Leaflet marker and popups
 */

@@ -3,15 +3,11 @@ import dayjs from "dayjs";
 import { Parser } from "@json2csv/plainjs";
 import copy from "../../common/data/copy.json";
 import { downloadAsFile } from "../../common/utilities";
-import config from "../../../config";
 
 export class DownloadButton extends Component {
   onDownload(format, domain) {
     let filename = `ukr-civharm-${dayjs().format("YYYY-MM-DD")}`;
-    if (format === "api") {
-      console.log(config["API_DATA"])
-      window.open(config["API_DATA"], '_blank');
-    }else if (format === "csv") {
+    if (format === "csv") {
       let outputData = this.getCsvData(domain);
       downloadAsFile(`${filename}.csv`, outputData);
     } else if (format === "json") {
@@ -70,12 +66,9 @@ export class DownloadButton extends Component {
     const { language, domain, format } = this.props;
     const textByFormat = copy[language].toolbar.download.panel.formats[format];
 
-    let description = <span className="download-description">{textByFormat.description}</span>;
-    
-    if(format=='api'){
-      const endpoint = config["API_DATA"];
-      description = <span className="download-description">{textByFormat.description} <a href={endpoint}>Copy API endpoint link from here.</a></span>
-    }
+    const description = (
+      <span className="download-description">{textByFormat.description}</span>
+    );
 
     return (
       <div className="download-row">

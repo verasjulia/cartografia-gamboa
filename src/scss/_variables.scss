@@ -68,7 +68,18 @@ $card-width: 500px;
 $card-right: 2px;
 $narrative-info-height: 205px;
 $narrative-info-desc-height: 153px;
-$timeline-height: 130px;
+$timeline-height: 90px;
+$toolbar-dock-width: 180px; // toolbar block docked left of the timeline
+$drawer-tab-width: 28px;
+
+// Drawer tab while the other drawer fills the map: muted grey, not clickable
+@mixin drawer-tab-disabled {
+  background: #9e9e9e;
+  color: #e0e0e0;
+  opacity: 0.45;
+  box-shadow: none;
+  cursor: default;
+}
 $toolbar-width: 0px;
 
 $panel-width: 1000px;

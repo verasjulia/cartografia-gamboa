@@ -38,6 +38,78 @@
     max-height: calc(100% - 20px);
   }
 
+  // Drawer docked on the right edge, from the top down to the timeline.
+  // Collapsed it is pushed off-screen, leaving only its tab visible.
+  &.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: $timeline-height;
+    width: 25vw; // a quarter of the screen width
+    max-height: none;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    transform: translateX(100%);
+    transition: transform 0.3s ease, width 0.3s ease, box-shadow 0.3s ease;
+
+    &.open {
+      transform: translateX(0);
+      box-shadow: -10px 0 38px rgba(0, 0, 0, 0.3);
+    }
+
+    // Second step: three quarters of the screen width
+    &.expanded {
+      width: calc(100vw * 3 / 4);
+
+      .card-stack-header,
+      .card-stack-content {
+        max-width: none;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      left: auto;
+      width: calc(100vw - #{$drawer-tab-width});
+      bottom: $timeline-height;
+      max-height: none;
+    }
+  }
+
+  .card-stack-tab {
+    position: absolute;
+    top: 35%; // above the left drawer's tab (65%) so they never overlap
+    left: -$drawer-tab-width;
+    width: $drawer-tab-width;
+    height: 64px;
+    margin-top: -32px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px 0 0 6px;
+    background: $black;
+    color: $offwhite;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      background: $darkgrey;
+    }
+
+    // Disabled while the other drawer fills the map
+    &:disabled {
+      @include drawer-tab-disabled;
+    }
+  }
+
+  .card-stack-empty {
+    padding: 20px;
+    color: $darkgrey;
+    font-size: $large;
+  }
+
   .card-stack-header {
     position: initial;
     top: $card-right;

@@ -19,6 +19,7 @@ import Timeline from "./time/Timeline";
 import Space from "./space/Space";
 import Search from "./controls/Search";
 import CardStack from "./controls/CardStack";
+import SideDrawer from "./controls/SideDrawer";
 import NarrativeControls from "./controls/NarrativeControls";
 
 import colors from "../common/global";
@@ -37,6 +38,17 @@ class Dashboard extends Component {
     this.findEventIdx = this.findEventIdx.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.selectNarrativeStep = this.selectNarrativeStep.bind(this);
+    this.setDrawerExpanded = this.setDrawerExpanded.bind(this);
+    // Which side drawer, if any, fills the whole map ("left" | "right" | null).
+    // While one does, the other drawer's tab is disabled.
+    this.state = { expandedDrawer: null };
+  }
+
+  setDrawerExpanded(side, isExpanded) {
+    this.setState(({ expandedDrawer }) => {
+      if (isExpanded) return { expandedDrawer: side };
+      return expandedDrawer === side ? { expandedDrawer: null } : null;
+    });
   }
 
   componentDidMount() {
@@ -77,38 +89,8 @@ class Dashboard extends Component {
     const matchedEvents = [];
     const TIMELINE_AXIS = 0;
     if (axis === TIMELINE_AXIS) {
+      // Events are individualised on the timeline: select only the clicked one
       matchedEvents.push(selected);
-      // find in events
-      const { events } = this.props.domain;
-      const idx = this.findEventIdx(selected);
-      // binary search can return event with different id
-      if (events[idx].id !== selected.id) {
-        matchedEvents.push(events[idx]);
-      }
-
-      // check events before
-      let ptr = idx - 1;
-      while (
-        ptr >= 0 &&
-        events[idx].datetime.getTime() === events[ptr].datetime.getTime()
-      ) {
-        if (events[ptr].id !== selected.id) {
-          matchedEvents.push(events[ptr]);
-        }
-        ptr -= 1;
-      }
-
-      // check events after
-      ptr = idx + 1;
-      while (
-        ptr < events.length &&
-        events[idx].datetime.getTime() === events[ptr].datetime.getTime()
-      ) {
-        if (events[ptr].id !== selected.id) {
-          matchedEvents.push(events[ptr]);
-        }
-        ptr += 1;
-      }
     } else {
       // Map..
       const std = { ...selected };
@@ -290,7 +272,6 @@ class Dashboard extends Component {
             isNarrative={!!app.associations.narrative}
             domain={domain}
             methods={{
-              onTitle: actions.toggleCover,
               onSelectFilter: (filters) =>
                 actions.toggleAssociations("filters", filters),
               onCategoryFilter: (categories) =>
@@ -332,7 +313,19 @@ class Dashboard extends Component {
           onHighlight={this.handleHighlight}
           onToggleCardstack={() => actions.updateSelected([])}
           getCategoryColor={this.getCategoryColor}
+          isTabDisabled={this.state.expandedDrawer === "left"}
+          onExpandedChange={(isExpanded) =>
+            this.setDrawerExpanded("right", isExpanded)
+          }
         />
+        <SideDrawer
+          isTabDisabled={this.state.expandedDrawer === "right"}
+          onExpandedChange={(isExpanded) =>
+            this.setDrawerExpanded("left", isExpanded)
+          }
+        >
+          {/* left drawer content goes here */}
+        </SideDrawer>
         <NarrativeControls
           narrative={
             app.associations.narrative

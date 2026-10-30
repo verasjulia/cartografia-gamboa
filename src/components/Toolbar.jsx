@@ -3,14 +3,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "../actions";
 import * as selectors from "../selectors";
-import config from "../../config";
 
 import { Tabs, TabList, TabPanel } from "react-tabs";
 import FilterListPanel from "./controls/FilterListPanel";
 import CategoriesListPanel from "./controls/CategoriesListPanel";
 import ShapesListPanel from "./controls/ShapesListPanel";
 import BottomActions from "./controls/BottomActions";
-import copy from "../common/data/copy.json";
 import {
   trimAndEllipse,
   getImmediateFilterParent,
@@ -279,8 +277,6 @@ class Toolbar extends Component {
   renderToolbarTabs() {
     const { features, narratives, toolbarCopy } = this.props;
     const narrativesExist = narratives && narratives.length !== 0;
-    let title = copy[this.props.language].toolbar.title;
-    if (config.display_title) title = config.display_title;
     const { panels } = toolbarCopy;
 
     const narrativesIdx = 0;
@@ -299,9 +295,6 @@ class Toolbar extends Component {
 
     return (
       <div className="toolbar">
-        <div className="toolbar-header" onClick={this.props.methods.onTitle}>
-          <p>{title}</p>
-        </div>
         <div className="toolbar-tabs">
           <TabList>
             {narrativesExist
@@ -359,7 +352,7 @@ class Toolbar extends Component {
           Made with{" "}
           <a href="https://github.com/forensic-architecture/timemap">TimeMap</a>
           <br />
-          Free software from{" "}
+          by{" "}
           <a href="https://forensic-architecture.org">Forensic Architecture</a>
         </div>
       </div>

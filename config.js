@@ -2,12 +2,16 @@ const one_day = 1440;
 
 const config = {
   title: "ukraine",
-  display_title: "Civilian Harm\nin Ukraine",
-  SERVER_ROOT: "https://bellingcat-embeds.ams3.cdn.digitaloceanspaces.com/production/ukr",
-  EVENTS_EXT: "/timemap/events.json",
-  SOURCES_EXT: "/timemap/sources.json",
-  ASSOCIATIONS_EXT: "/timemap/associations.json",
-  API_DATA: "https://bellingcat-embeds.ams3.cdn.digitaloceanspaces.com/production/ukr/timemap/api.json",
+  // Local reduced dataset (~30% of the original events), served from public/data
+  SERVER_ROOT: ".",
+  EVENTS_EXT: "/data/events.json",
+  SOURCES_EXT: "/data/sources.json",
+  ASSOCIATIONS_EXT: "/data/associations.json",
+  // Original remote dataset:
+  // SERVER_ROOT: "https://bellingcat-embeds.ams3.cdn.digitaloceanspaces.com/production/ukr",
+  // EVENTS_EXT: "/timemap/events.json",
+  // SOURCES_EXT: "/timemap/sources.json",
+  // ASSOCIATIONS_EXT: "/timemap/associations.json",
   // MEDIA_EXT: "/api/media",
   DATE_FMT: "M/D/YYYY",
   TIME_FMT: "HH:mm",
@@ -32,31 +36,23 @@ const config = {
           height: 90,
           contentHeight: 90,
         },
-        zoomLevels: [
-          // { label: "Zoom to 2 weeks", duration: 14 * one_day },
-          // { label: "Zoom to 1 month", duration: 31 * one_day },
-          // { label: "Zoom to 6 months", duration: 6 * 31 * one_day },
-          { label: "Zoom to 1 year", duration: 12 * 31 * one_day },
-          { label: "Zoom to 2 years", duration: 2 * 12 * 31 * one_day },
-          { label: "Zoom to 5 years", duration: 5 * 12 * 31 * one_day },
-        ],
         range: {
           /**
            * Initial date range shown on map load.
            * Use [start, end] (strings in ISO 8601 format) for a fixed range.
            * Use undefined for a dynamic initial range based on the browser time.
            */
-          initial: ["2022-02-01T00:00:00.000Z", "2025-08-31T23:59:59.999Z"],
+          initial: ["2024-06-25T00:00:00.000Z", "2025-06-24T23:59:59.999Z"],
           /** The number of days to show when using a dynamic initial range */
           initialDaysShown: 31*12,
           limits: {
             /** Required. The lower bound of the range that can be accessed on the map. (ISO 8601) */
-            lower: "2022-02-01T00:00:00.000Z",
+            lower: "2024-06-25T00:00:00.000Z",
             /**
              * The upper bound of the range that can be accessed on the map.
              * Defaults to current browser time if undefined.
              */
-            upper: "2025-08-14T23:59:59.999Z",
+            upper: "2025-06-24T23:59:59.999Z",
           },
         },
       },
@@ -149,6 +145,7 @@ const config = {
       COLOR_BY_CATEGORY: false,
       COLOR_BY_ASSOCIATION: true,
       USE_ASSOCIATIONS: true,
+      USE_CLUSTERS: false,
       USE_FULLSCREEN: true,
       USE_DOWNLOAD: true,
       USE_SOURCES: true,
@@ -159,7 +156,7 @@ const config = {
       USE_SATELLITE_OVERLAY_TOGGLE: true,
       USE_SEARCH: false,
       USE_SITES: false,
-      ZOOM_TO_TIMEFRAME_ON_TIMELINE_CLICK: one_day,
+      ZOOM_TO_TIMEFRAME_ON_TIMELINE_CLICK: false,
       FETCH_EXTERNAL_MEDIA: false,
       USE_MEDIA_CACHE: false,
       GRAPH_NONLOCATED: false,

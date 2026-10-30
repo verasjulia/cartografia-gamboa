@@ -271,6 +271,7 @@ class Map extends Component {
   }
 
   getSelectedClusters() {
+    if (!this.props.features.USE_CLUSTERS) return [];
     const { selected } = this.props.app;
     const selectedIds = selected.map((sl) => sl.id);
 
@@ -430,13 +431,16 @@ class Map extends Component {
     Leaving these lines commented out renders all the locations on the map, regardless of whether or not they are clustered
     */
 
-    const individualClusters = this.state.clusters.filter(
-      (cl) => !cl.properties.cluster
-    );
-    const filteredLocations = mapClustersToLocations(
-      individualClusters,
-      this.props.domain.locations
-    );
+    let filteredLocations = this.props.domain.locations;
+    if (this.props.features.USE_CLUSTERS) {
+      const individualClusters = this.state.clusters.filter(
+        (cl) => !cl.properties.cluster
+      );
+      filteredLocations = mapClustersToLocations(
+        individualClusters,
+        this.props.domain.locations
+      );
+    }
 
     return (
       <Events
@@ -543,7 +547,7 @@ class Map extends Component {
         {this.renderRegions()}
         {this.renderNarratives()}
         {this.renderEvents()}
-        {this.renderClusters()}
+        {this.props.features.USE_CLUSTERS && this.renderClusters()}
         {this.renderSelected()}
       </>
     ) : null;

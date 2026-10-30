@@ -204,6 +204,7 @@ const initial = {
   features: {
     USE_COVER: false,
     USE_ASSOCIATIONS: false,
+    USE_CLUSTERS: true,
     USE_SITES: false,
     USE_SOURCES: false,
     USE_REGIONS: false,

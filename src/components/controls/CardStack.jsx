@@ -12,13 +12,47 @@ class CardStack extends Component {
     this.refs = {};
     this.refCardStack = createRef();
     this.refCardStackContent = createRef();
+    // isManuallyOpen: drawer opened from its tab when no event is selected
+    // isExpanded: drawer widened from a quarter to three quarters of the screen
+    this.state = { isManuallyOpen: false, isExpanded: false };
+    this.onClose = this.onClose.bind(this);
+    this.onToggleTab = this.onToggleTab.bind(this);
   }
 
-  componentDidUpdate() {
+  isOpen() {
+    return this.props.selected.length > 0 || this.state.isManuallyOpen;
+  }
+
+  onClose() {
+    this.setState({ isManuallyOpen: false, isExpanded: false });
+    this.props.onToggleCardstack();
+  }
+
+  // Tab cycles: closed -> quarter width -> three quarters width -> closed
+  onToggleTab() {
+    if (!this.isOpen()) {
+      this.setState({ isManuallyOpen: true });
+    } else if (!this.state.isExpanded) {
+      this.setState({ isExpanded: true });
+    } else {
+      this.onClose();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const isNarrative = !!this.props.narrative;
 
     if (isNarrative) {
       this.scrollToCard();
+    }
+
+    // Always reopen at a quarter width, whatever closed the drawer
+    if (!this.isOpen() && this.state.isExpanded) {
+      this.setState({ isExpanded: false });
+    }
+
+    if (prevState.isExpanded !== this.state.isExpanded) {
+      this.props.onExpandedChange?.(this.state.isExpanded);
     }
   }
 
@@ -112,7 +146,7 @@ class CardStack extends Component {
       <div
         id="card-stack-header"
         className="card-stack-header"
-        onClick={() => this.props.onToggleCardstack()}
+        onClick={this.onClose}
       >
         <button className="side-menu-burg is-active">
           <span />
@@ -125,6 +159,13 @@ class CardStack extends Component {
   }
 
   renderCardStackContent() {
+    if (this.props.selected.length === 0) {
+      return (
+        <div className="card-stack-content card-stack-empty">
+          <p>{copy[this.props.language].cardstack.empty}</p>
+        </div>
+      );
+    }
     return (
       <div
         id="card-stack-content"
@@ -132,6 +173,27 @@ class CardStack extends Component {
       >
         <ul>{this.renderSelectedCards()}</ul>
       </div>
+    );
+  }
+
+  renderDrawerTab(isOpen) {
+    const willClose = isOpen && this.state.isExpanded;
+    const label = !isOpen
+      ? "Open panel"
+      : willClose
+      ? "Close panel"
+      : "Expand panel";
+    return (
+      <button
+        className="card-stack-tab"
+        onClick={this.onToggleTab}
+        aria-label={label}
+        disabled={this.props.isTabDisabled}
+      >
+        <i className="material-icons">
+          {willClose ? "chevron_right" : "chevron_left"}
+        </i>
+      </button>
     );
   }
 
@@ -149,32 +211,37 @@ class CardStack extends Component {
 
   render() {
     const { isCardstack, selected, narrative } = this.props;
-    if (selected.length > 0) {
-      if (!narrative) {
-        return (
-          <div
-            id="card-stack"
-            className={`card-stack ${isCardstack ? "" : " folded"}`}
-          >
-            {this.renderCardStackHeader()}
-            {this.renderCardStackContent()}
-          </div>
-        );
-      } else {
-        return (
-          <div
-            id="card-stack"
-            ref={this.refCardStack}
-            className={`card-stack narrative-mode
-            ${isCardstack ? "" : " folded"}`}
-          >
-            {this.renderNarrativeContent()}
-          </div>
-        );
-      }
+
+    if (narrative) {
+      if (selected.length === 0) return <div />;
+      return (
+        <div
+          id="card-stack"
+          ref={this.refCardStack}
+          className={`card-stack narrative-mode
+          ${isCardstack ? "" : " folded"}`}
+        >
+          {this.renderNarrativeContent()}
+        </div>
+      );
     }
 
-    return <div />;
+    // Drawer docked on the right: collapsed by default, slides out when an
+    // event is selected (or when its tab is clicked)
+    const isOpen = this.isOpen();
+    const isExpanded = isOpen && this.state.isExpanded;
+    return (
+      <div
+        id="card-stack"
+        className={`card-stack drawer ${isOpen ? "open" : ""} ${
+          isExpanded ? "expanded" : ""
+        }`}
+      >
+        {this.renderDrawerTab(isOpen)}
+        {selected.length > 0 ? this.renderCardStackHeader() : null}
+        {this.renderCardStackContent()}
+      </div>
+    );
   }
 }
 

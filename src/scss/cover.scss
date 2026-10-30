@@ -19,47 +19,6 @@
   }
 }
 
-.cover-header {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  width: 64px;
-  right: 7px;
-  left: auto;
-  top: 7px;
-  bottom: auto;
-  border-radius: 6px;
-  overflow: hidden;
-  max-width: initial;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: all 0.6s ease;
-  transition-delay: 0.3s;
-
-  &.minimized {
-    top: 78px;
-    right: 7px;
-    transition: all 0.6s ease;
-    transition-delay: 0s;
-    z-index: 10;
-
-    @media screen and (max-width: 600px) {
-      top: 145px;
-    }
-  }
-
-  .cover-logo-container {
-    display: block;
-    padding: 0;
-    img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-  }
-}
-
 .fullscreen-bg {
   &.hidden {
     top: -100%;
