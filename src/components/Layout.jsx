@@ -20,9 +20,11 @@ import Space from "./space/Space";
 import Search from "./controls/Search";
 import CardStack from "./controls/CardStack";
 import SideDrawer from "./controls/SideDrawer";
+import MediaItems, { hasItems } from "./controls/MediaItems";
 import NarrativeControls from "./controls/NarrativeControls";
 
 import colors from "../common/global";
+import copy from "../common/data/copy.json";
 import { binarySearch, insetSourceFrom } from "../common/utilities";
 
 class Dashboard extends Component {
@@ -34,6 +36,7 @@ class Dashboard extends Component {
     this.setNarrative = this.setNarrative.bind(this);
     this.setNarrativeFromFilters = this.setNarrativeFromFilters.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.toggleEventSelection = this.toggleEventSelection.bind(this);
     this.getCategoryColor = this.getCategoryColor.bind(this);
     this.findEventIdx = this.findEventIdx.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -99,6 +102,47 @@ class Dashboard extends Component {
     }
 
     this.props.actions.updateSelected(matchedEvents);
+  }
+
+  // Timeline boxes: each click adds the event to the selection, or removes it
+  // if it was already selected, so several events can be active together
+  toggleEventSelection(event) {
+    const { selected } = this.props.app;
+    const isSelected = selected.some((ev) => ev.id === event.id);
+    this.props.actions.updateSelected(
+      isSelected
+        ? selected.filter((ev) => ev.id !== event.id)
+        : [...selected, event]
+    );
+  }
+
+  // Barra sociograma (left): shows the `sociograma` items of the selected event
+  renderSociogramaBar() {
+    const { selected, app } = this.props;
+    const texts = copy[app.language].sociograma;
+    const withContent = selected.filter((event) => hasItems(event.sociograma));
+
+    return (
+      <SideDrawer
+        title={texts.title}
+        code={selected.map((event) => event.civId).join(", ")}
+        hasContent={withContent.length > 0}
+        contentKey={selected.map((event) => event.id).join(",")}
+        emptyMessage={texts.empty}
+        isTabDisabled={this.state.expandedDrawer === "right"}
+        onExpandedChange={(isExpanded) =>
+          this.setDrawerExpanded("left", isExpanded)
+        }
+      >
+        {withContent.map((event) => (
+          <MediaItems
+            key={event.id}
+            items={event.sociograma}
+            heading={withContent.length > 1 ? event.civId : null}
+          />
+        ))}
+      </SideDrawer>
+    );
   }
 
   getCategoryColor(category) {
@@ -299,6 +343,7 @@ class Dashboard extends Component {
               onSelect: app.associations.narrative
                 ? this.selectNarrativeStep
                 : (ev) => this.handleSelect(ev, 0),
+              onToggleEvent: this.toggleEventSelection,
               onUpdateTimerange: actions.updateTimeRange,
               getCategoryColor: this.getCategoryColor,
             }}
@@ -311,21 +356,13 @@ class Dashboard extends Component {
             app.associations.narrative ? this.selectNarrativeStep : () => null
           }
           onHighlight={this.handleHighlight}
-          onToggleCardstack={() => actions.updateSelected([])}
           getCategoryColor={this.getCategoryColor}
           isTabDisabled={this.state.expandedDrawer === "left"}
           onExpandedChange={(isExpanded) =>
             this.setDrawerExpanded("right", isExpanded)
           }
         />
-        <SideDrawer
-          isTabDisabled={this.state.expandedDrawer === "right"}
-          onExpandedChange={(isExpanded) =>
-            this.setDrawerExpanded("left", isExpanded)
-          }
-        >
-          {/* left drawer content goes here */}
-        </SideDrawer>
+        {this.renderSociogramaBar()}
         <NarrativeControls
           narrative={
             app.associations.narrative

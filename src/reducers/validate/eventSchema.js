@@ -44,6 +44,19 @@ function createEventSchema(custom) {
       narrative___stepStyles: Joi.array(),
       shape: Joi.string().allow(""),
       colour: Joi.string().allow(""),
+
+      /* Gamboa Ocean */
+      // Mapbox style layer ids shown while the event is selected
+      camadas: Joi.array().items(Joi.string()),
+      // map view applied when the event is selected
+      vista: Joi.object({
+        lat: Joi.number().required(),
+        lng: Joi.number().required(),
+        zoom: Joi.number().required(),
+      }),
+      // content of the right bar (multimídia) and the left bar (sociograma)
+      multimidia: Joi.array().items(Joi.object()),
+      sociograma: Joi.array().items(Joi.object()),
       ...joiFromCustom(custom),
     })
     .and("latitude", "longitude")

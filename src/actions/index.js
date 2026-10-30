@@ -1,4 +1,5 @@
 import { urlFromEnv } from "../common/utilities";
+import { initialMapView } from "../store/initial";
 
 // TODO: relegate these URLs entirely to environment variables
 // const CONFIG_URL = urlFromEnv('CONFIG_EXT')
@@ -430,4 +431,9 @@ export function updateMapView(lat, lng, zoom) {
     lng,
     zoom,
   };
+}
+
+export function resetMapView() {
+  const { lat, lng, zoom } = initialMapView;
+  return updateMapView(lat, lng, zoom);
 }

@@ -1,0 +1,92 @@
+// Content of the event bars (multimídia on the right, sociograma on the left)
+.bar-title {
+  margin: 0;
+  padding: 16px 20px 8px;
+  font-size: $large;
+  font-weight: 700;
+  color: $black;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  .bar-title-code {
+    margin-left: 8px;
+    color: $midwhite;
+  }
+}
+
+.media-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: $black;
+
+  .media-item {
+    margin: 0;
+  }
+
+  h3 {
+    margin: 0 0 6px;
+    font-size: $large;
+  }
+
+  p {
+    margin: 0 0 8px;
+    font-size: $normal;
+    line-height: 1.5;
+  }
+
+  img,
+  video,
+  iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  iframe {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
+  audio {
+    width: 100%;
+  }
+
+  figcaption {
+    margin-top: 4px;
+    font-size: $small;
+    color: $midgrey;
+  }
+
+  .media-link a {
+    color: $black;
+    font-size: $normal;
+    word-break: break-word;
+  }
+}
+
+// Several events selected: one block per event, headed by its code
+.media-items + .media-items {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid $lightwhite;
+}
+
+.media-items-heading {
+  margin: 0;
+  font-size: $normal;
+  font-weight: 700;
+  color: $yellow;
+  letter-spacing: 0.05em;
+}
+
+// Barra multimídia (card stack): its header is dark and its content area has
+// no side padding of its own
+.card-stack-header .bar-title {
+  padding: 10px 10px 10px 44px; // room for the close (X) button
+  color: $offwhite;
+}
+
+.card-stack-content .media-items {
+  padding: 16px 10px 0 20px;
+}

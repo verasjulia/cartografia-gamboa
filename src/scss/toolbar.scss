@@ -628,17 +628,6 @@
 /*
 * Made with block
 */
-#made-with {
-  text-align: center;
-  font-size: 0.65rem;
-  line-height: 1.3;
-  opacity: 0.65;
-  color: $midwhite;
-  &:hover {
-    opacity: 1;
-  }
-}
-
 // @media (max-height: 678px) {
 //   .toolbar-wrapper {
 //     .toolbar-tab {

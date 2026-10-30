@@ -1,10 +1,13 @@
 import { createRef, Component } from "react";
 import { connect } from "react-redux";
 import { generateCardLayout, Card } from "./Card";
+import MediaItems, { hasItems } from "./MediaItems";
 
 import * as selectors from "../../selectors";
 import { getFilterIdxFromColorSet } from "../../common/utilities";
 import copy from "../../common/data/copy.json";
+
+const selectionKey = (selected) => selected.map((event) => event.id).join(",");
 
 class CardStack extends Component {
   constructor() {
@@ -14,24 +17,50 @@ class CardStack extends Component {
     this.refCardStackContent = createRef();
     // isManuallyOpen: drawer opened from its tab when no event is selected
     // isExpanded: drawer widened from a quarter to three quarters of the screen
-    this.state = { isManuallyOpen: false, isExpanded: false };
+    // isDismissed: drawer collapsed with its close button; it stays collapsed
+    // until the selection changes or its tab is clicked
+    this.state = {
+      isManuallyOpen: false,
+      isExpanded: false,
+      isDismissed: false,
+    };
     this.onClose = this.onClose.bind(this);
     this.onToggleTab = this.onToggleTab.bind(this);
   }
 
-  isOpen() {
-    return this.props.selected.length > 0 || this.state.isManuallyOpen;
+  // The bar only opens with a single event selected: with several, it stays
+  // collapsed and its tab is disabled
+  hasSeveralSelected() {
+    return this.props.selected.length > 1;
   }
 
+  // Opens by itself only when the selected event has multimídia content
+  hasContent() {
+    const { selected } = this.props;
+    return selected.length === 1 && hasItems(selected[0].multimidia);
+  }
+
+  isOpen() {
+    if (this.state.isDismissed) return false;
+    return (
+      this.hasContent() ||
+      (this.state.isManuallyOpen && !this.hasSeveralSelected())
+    );
+  }
+
+  // Only collapses the bar: the selected events (and their map layers) stay
   onClose() {
-    this.setState({ isManuallyOpen: false, isExpanded: false });
-    this.props.onToggleCardstack();
+    this.setState({
+      isManuallyOpen: false,
+      isExpanded: false,
+      isDismissed: true,
+    });
   }
 
   // Tab cycles: closed -> quarter width -> three quarters width -> closed
   onToggleTab() {
     if (!this.isOpen()) {
-      this.setState({ isManuallyOpen: true });
+      this.setState({ isManuallyOpen: true, isDismissed: false });
     } else if (!this.state.isExpanded) {
       this.setState({ isExpanded: true });
     } else {
@@ -44,6 +73,14 @@ class CardStack extends Component {
 
     if (isNarrative) {
       this.scrollToCard();
+    }
+
+    // A new selection opens the bar again (if it has content)
+    if (
+      this.state.isDismissed &&
+      selectionKey(prevProps.selected) !== selectionKey(this.props.selected)
+    ) {
+      this.setState({ isDismissed: false });
     }
 
     // Always reopen at a quarter width, whatever closed the drawer
@@ -121,13 +158,9 @@ class CardStack extends Component {
     });
   }
 
-  renderSelectedCards() {
-    const { selected } = this.props;
-
-    if (selected.length > 0) {
-      return this.renderCards(selected);
-    }
-    return null;
+  renderSelectedContent() {
+    const [event] = this.props.selected;
+    return <MediaItems items={event.multimidia} />;
   }
 
   renderNarrativeCards() {
@@ -140,7 +173,7 @@ class CardStack extends Component {
   }
 
   renderCardStackHeader() {
-    const headerLang = copy[this.props.language].cardstack.header;
+    const codes = this.props.selected.map((event) => event.civId).join(", ");
 
     return (
       <div
@@ -151,15 +184,16 @@ class CardStack extends Component {
         <button className="side-menu-burg is-active">
           <span />
         </button>
-        <p className="header-copy top">
-          {`${this.props.selected.length} ${headerLang}`}
-        </p>
+        <h2 className="bar-title">
+          {copy[this.props.language].cardstack.title}
+          <span className="bar-title-code">{codes}</span>
+        </h2>
       </div>
     );
   }
 
   renderCardStackContent() {
-    if (this.props.selected.length === 0) {
+    if (!this.hasContent()) {
       return (
         <div className="card-stack-content card-stack-empty">
           <p>{copy[this.props.language].cardstack.empty}</p>
@@ -171,7 +205,7 @@ class CardStack extends Component {
         id="card-stack-content"
         className="card-stack-content scrollbar-black"
       >
-        <ul>{this.renderSelectedCards()}</ul>
+        {this.renderSelectedContent()}
       </div>
     );
   }
@@ -188,7 +222,7 @@ class CardStack extends Component {
         className="card-stack-tab"
         onClick={this.onToggleTab}
         aria-label={label}
-        disabled={this.props.isTabDisabled}
+        disabled={this.props.isTabDisabled || this.hasSeveralSelected()}
       >
         <i className="material-icons">
           {willClose ? "chevron_right" : "chevron_left"}
@@ -226,8 +260,9 @@ class CardStack extends Component {
       );
     }
 
-    // Drawer docked on the right: collapsed by default, slides out when an
-    // event is selected (or when its tab is clicked)
+    // Barra multimídia, docked on the right: collapsed by default, slides out
+    // when the selected event has multimídia content (or when its tab is
+    // clicked)
     const isOpen = this.isOpen();
     const isExpanded = isOpen && this.state.isExpanded;
     return (

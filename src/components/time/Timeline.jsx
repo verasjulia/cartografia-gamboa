@@ -263,7 +263,7 @@ class Timeline extends Component {
         events={this.props.domain.events}
         selected={this.props.app.selected}
         dims={this.state.dims}
-        onSelect={this.onSelect}
+        onToggle={this.props.methods.onToggleEvent}
       />
     );
   }

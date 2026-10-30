@@ -209,6 +209,7 @@
       "explore_by_shape__description": "Shapes map to a given type of event that appears on the timeline.<br><br>Select the shape marker to toggle this type of event on / off",
       "fullscreen_enter": "Fullscreen",
       "fullscreen_exit": "Exit Fullscreen",
+      "reset_view": "Initial view",
       "download": {
         "button": "Download",
         "panel": {
@@ -240,9 +241,14 @@
       "reset": "reset dates",
       "default_categories_label": ""
     },
+    "sociograma": {
+      "title": "Sociograma",
+      "empty": "No sociogram content for the selected event."
+    },
     "cardstack": {
       "header": "selected events",
-      "empty": "Click a point on the map or the timeline to see the event details.",
+      "title": "Multimídia",
+      "empty": "No multimedia content for the selected event.",
       "timestamp": "Day and time",
       "unknown_location": "Unknown location",
       "estimated": "estimated",

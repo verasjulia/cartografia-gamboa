@@ -8,7 +8,23 @@
     "latitude": "",
     "longitude": "",
     "associations": [],
-    "sources": []
+    "sources": [],
+    "camadas": [
+      "savam-apcp",
+      "parque-marinho-barra",
+      "zeis-5"
+    ],
+    "vista": {
+      "lat": -12.986,
+      "lng": -38.522,
+      "zoom": 15.8
+    },
+    "multimidia": [
+      {
+        "tipo": "texto",
+        "titulo": "PDDU - Gamboa Zeis V + Parque Marinho + Área de Borda Marítima T4"
+      }
+    ]
   },
   {
     "id": "E2",
@@ -19,7 +35,22 @@
     "latitude": "",
     "longitude": "",
     "associations": [],
-    "sources": []
+    "sources": [],
+    "camadas": [
+      "reforma-viaduto",
+      "av-7"
+    ],
+    "vista": {
+      "lat": -12.986,
+      "lng": -38.522,
+      "zoom": 15.8
+    },
+    "multimidia": [
+      {
+        "tipo": "texto",
+        "titulo": "Obra de manutenção no viaduto + Morte de pescador"
+      }
+    ]
   },
   {
     "id": "E3",

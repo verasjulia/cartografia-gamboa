@@ -7,6 +7,8 @@ const config = {
   EVENTS_EXT: "/data/events.json",
   SOURCES_EXT: "/data/sources.json",
   ASSOCIATIONS_EXT: "/data/associations.json",
+  // texts shown when clicking map features (see README, "Popups")
+  POPUPS_EXT: "/data/popups.json",
   DATE_FMT: "M/D/YYYY",
   TIME_FMT: "HH:mm",
 
@@ -14,12 +16,18 @@ const config = {
     app: {
       debug: true,
       map: {
-        // Gamboa, Rio de Janeiro [lat, lng]
-        anchor: [-22.8975, -43.1925],
+        // Gamboa, Salvador (BA) [lat, lng]
+        anchor: [-12.986, -38.522],
         maxZoom: 18,
-        minZoom: 4,
-        startZoom: 14,
-        // maxBounds: []
+        // furthest zoom out allowed
+        minZoom: 10,
+        startZoom: 15.8,
+        // Area the map can show: what zoom 10 centred on lat -12.915,
+        // lng -38.524 shows on a 1920x1080 screen. [[lat, lng] SW, [lat, lng] NE]
+        maxBounds: [
+          [-13.2761, -39.1832],
+          [-12.5533, -37.8648],
+        ],
       },
       timeline: {
         dimensions: {
@@ -101,12 +109,11 @@ const config = {
       timeline: {
         eventRadius: 9,
       },
-      // Mapbox style URLs (teste-mapbox). Leaflet/Esri originals:
-      // default: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-      // satellite: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+      // Mapbox style URLs. "satellite" is only used by the satellite toggle
+      // (USE_SATELLITE_OVERLAY_TOGGLE), which would replace the whole style.
       tiles: {
-        current: "mapbox://styles/mapbox/streets-v12",
-        default: "mapbox://styles/mapbox/streets-v12",
+        current: "mapbox://styles/verasjulia/cmvv6xs5r009q01s2fzdt9fo8",
+        default: "mapbox://styles/verasjulia/cmvv6xs5r009q01s2fzdt9fo8",
         satellite: "mapbox://styles/mapbox/satellite-streets-v12"
       },
     },
@@ -124,10 +131,12 @@ const config = {
       USE_SHAPES: false,
       USE_COVER: false,
       USE_INTRO: false,
-      USE_SATELLITE_OVERLAY_TOGGLE: true,
+      USE_SATELLITE_OVERLAY_TOGGLE: false,
       USE_SEARCH: false,
       USE_SITES: false,
       ZOOM_TO_TIMEFRAME_ON_TIMELINE_CLICK: false,
+      // true: selecting an event moves the map to its "vista" (events.json)
+      MOVE_MAP_ON_EVENT_SELECT: false,
       FETCH_EXTERNAL_MEDIA: false,
       USE_MEDIA_CACHE: false,
       GRAPH_NONLOCATED: false,

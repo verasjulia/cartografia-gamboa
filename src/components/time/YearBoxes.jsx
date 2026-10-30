@@ -3,7 +3,8 @@
  * width. Every event is drawn as a box labelled with its code (the `id` from
  * the data, stored as `civId`) under its year. Boxes fill columns of
  * `ROWS` boxes; extra boxes open a new column to the right, inside the year's
- * slice.
+ * slice. Each click adds the event to the selection or removes it, so
+ * several events can be active together; active boxes get a red outline.
  */
 const ROWS = 2;
 const LABEL_Y = 16;
@@ -20,7 +21,7 @@ const compareCodes = (a, b) =>
   a.datetime - b.datetime ||
   String(a.civId).localeCompare(String(b.civId), undefined, { numeric: true });
 
-const YearBoxes = ({ years, events, selected, dims, onSelect }) => {
+const YearBoxes = ({ years, events, selected, dims, onToggle }) => {
   const sortedYears = [...years].sort((a, b) => a - b);
   const start = dims.marginLeft;
   const end = dims.width - dims.marginLeft;
@@ -75,7 +76,7 @@ const YearBoxes = ({ years, events, selected, dims, onSelect }) => {
                   key={event.id}
                   className={`event-box${isSelected ? " selected" : ""}`}
                   transform={`translate(${boxX}, ${boxY})`}
-                  onClick={() => onSelect(event)}
+                  onClick={() => onToggle(event)}
                 >
                   <title>{event.civId}</title>
                   <rect width={boxWidth} height={BOX_HEIGHT} />

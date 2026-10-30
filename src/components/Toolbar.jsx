@@ -22,6 +22,7 @@ import {
 } from "../common/utilities";
 import { ToolbarButton } from "./controls/atoms/ToolbarButton";
 import { FullscreenToggle } from "./controls/FullScreenToggle";
+import { ResetViewButton } from "./controls/ResetViewButton";
 import DownloadPanel from "./controls/DownloadPanel";
 
 class Toolbar extends Component {
@@ -328,6 +329,10 @@ class Toolbar extends Component {
                   panels.download.icon
                 )
               : null}
+            <ResetViewButton
+              language={this.props.language}
+              onClick={this.props.actions.resetMapView}
+            />
             {features.USE_FULLSCREEN && (
               <FullscreenToggle language={this.props.language} />
             )}
@@ -347,14 +352,6 @@ class Toolbar extends Component {
           }}
           features={this.props.features}
         />
-
-        <div id="made-with">
-          Made with{" "}
-          <a href="https://github.com/forensic-architecture/timemap">TimeMap</a>
-          <br />
-          by{" "}
-          <a href="https://forensic-architecture.org">Forensic Architecture</a>
-        </div>
       </div>
     );
   }

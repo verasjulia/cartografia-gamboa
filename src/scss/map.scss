@@ -91,6 +91,30 @@
   bottom: calc(#{$timeline-height} + 1px);
 }
 
+// Map credits: Mapbox attribution (© Mapbox, © OpenStreetMap, Improve this
+// map, required by Mapbox) followed by the TimeMap credit on the same line.
+// Light grey on a dark background so they stay legible. Narrow screens keep
+// Mapbox's default compact attribution (an "i" button).
+$credits-color: #afafaf;
+
+.mapboxgl-ctrl-bottom-right {
+  .mapboxgl-ctrl-attrib:not(.mapboxgl-compact) {
+    clear: none; // keep both controls on one line
+    background-color: rgba($black, 0.6);
+    color: $credits-color;
+
+    a {
+      // overrides the global `a { color: $yellow !important }` (overlay.scss)
+      color: $credits-color !important;
+    }
+  }
+
+  .timemap-credit::before {
+    content: "|";
+    margin-right: 4px;
+  }
+}
+
 .eventLocationMarker {
   fill: none;
   stroke: $yellow;
@@ -160,5 +184,34 @@
 
   .no-hover {
     cursor: inherit;
+  }
+}
+
+// Text shown when clicking a map feature (public/data/popups.json)
+.feature-popup {
+  .mapboxgl-popup-content {
+    padding: 10px 26px 10px 12px;
+    background: #fff; // same as the popup tip
+    color: $black;
+    font-family: $mainfont;
+    font-size: $normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba($black, 0.3);
+    max-height: 40vh;
+    overflow-y: auto;
+
+    p {
+      margin: 0 0 6px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .mapboxgl-popup-close-button {
+    font-size: 16px;
+    color: $midgrey;
   }
 }

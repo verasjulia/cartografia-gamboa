@@ -230,4 +230,12 @@ if ("space3d" in appStore.app) {
   appStore.app.space3d = mergeDeepLeft(appStore.app.space3d, space3dInitial);
 }
 
+// Map view from config, kept apart from the store because the view saved
+// in the URL overrides the store's map on load
+export const initialMapView = {
+  lat: appStore.app.map.anchor[0],
+  lng: appStore.app.map.anchor[1],
+  zoom: appStore.app.map.startZoom,
+};
+
 export default appStore;
