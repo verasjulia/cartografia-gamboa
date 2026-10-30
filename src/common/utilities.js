@@ -334,47 +334,12 @@ export function calcOpacity(num) {
   return base + Math.min(0.5, 0.08 * (num - 1));
 }
 
-export function calcClusterOpacity(pointCount, totalPoints) {
-  /* Clusters represent multiple events within a specific radius. The darker the cluster,
-  the larger the number of underlying events. We use a multiplication factor (50) here as well
-  to ensure that the larger clusters have an appropriately darker shading. */
-  return Math.min(0.85, 0.08 + (pointCount / totalPoints) * 50);
-}
-
-export function calcClusterSize(pointCount, totalPoints) {
-  /* The larger the cluster size, the higher the count of points that the cluster represents.
-  Just like with opacity, we use a multiplication factor to ensure that clusters with higher point
-  counts appear larger. */
-  //TO-DO: Convert maxSize into a config var
-  const maxSize = totalPoints > 60 ? 60 : 35;
-  return Math.min(maxSize, 10 + (pointCount / totalPoints) * 100);
-}
-
-export function calculateTotalClusterPoints(clusters) {
-  return clusters.reduce((total, cl) => {
-    if (cl && cl.properties && cl.properties.cluster) {
-      total += cl.properties.point_count;
-    }
-    return total;
-  }, 0);
-}
-
 export function isLatitude(lat) {
   return !!lat && isFinite(lat) && Math.abs(lat) <= 90;
 }
 
 export function isLongitude(lng) {
   return !!lng && isFinite(lng) && Math.abs(lng) <= 180;
-}
-
-export function mapClustersToLocations(clusters, locations) {
-  return clusters.reduce((acc, cl) => {
-    const foundLocation = locations.find(
-      (location) => location.label === cl.properties.id
-    );
-    if (foundLocation) acc.push(foundLocation);
-    return acc;
-  }, []);
 }
 
 /**
