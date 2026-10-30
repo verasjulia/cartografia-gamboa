@@ -280,16 +280,6 @@
     }
   }
 
-  .embedded {
-    // width: calc(#{$card-width} - 50px) !important;
-    width: 100%;
-    max-width: 90vw;
-
-    .twitter-tweet {
-      max-width: 450px !important;
-    }
-  }
-
   .source-hidden,
   .source-graphic {
     display: flex;

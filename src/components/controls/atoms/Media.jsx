@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { useCallback } from "react";
 import { typeForPath } from "../../../common/utilities";
-import TwitterTweet from'./TwitterTweet'
-import TelegramPostEmbed from "./TelegramEmbed";
 
 const TITLE_LENGTH = 50;
 // TODO should videos
@@ -87,40 +85,6 @@ const Media = ({ cardIdx, src, title, graphic }) => {
         </div>
       );
 
-    case "Telegram":
-      if (src.includes("https://t.me/c/")) {
-        return <div>Private <a href={src}>telegram post</a></div>
-      }
-      try {
-        return wrapGraphic(
-          <div className="card-cell media embedded">
-            <TelegramPostEmbed src={src} />
-          </div>
-        );
-      } catch (error) {
-        return <div>Unable to display <a href={src}>telegram post</a></div>
-      }
-
-    case "Tweet":
-      const tweetIdRegex =
-        /https?:\/\/(mobile\.){0,1}twitter.com\/[0-9a-zA-Z_]{1,20}\/status\/([0-9]*)/;
-      const match = tweetIdRegex.exec(src);
-      if (!match || match.length < 2) {
-        return null;
-      }
-      const tweetId = match[match.length - 1];
-      try {
-        return wrapGraphic(
-          <div className="card-cell media embedded">
-            <TwitterTweet
-              tweetId={tweetId}
-              options={{ conversation: "none" }}
-            />
-          </div>
-        );
-      } catch (error) {
-        return <div>Unable to display <a href={src}>tweet</a></div>
-      }
     default:
       if (src === "HIDDEN") {
         return (

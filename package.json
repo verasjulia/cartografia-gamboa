@@ -23,9 +23,9 @@
     "@json2csv/plainjs": "^6.1.2",
     "d3": "^7.4.2",
     "dayjs": "^1.11.0",
+    "dompurify": "^3.4.13",
     "joi": "^17.1.1",
     "leaflet": "^1.0.3",
-    "dompurify": "^3.4.13",
     "marked": "^18.0.10",
     "object-hash": "^3.0.0",
     "ramda": "^0.28.0",
@@ -39,7 +39,6 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^4.1.7",
     "screenfull": "^6.0.2",
-    "scriptjs": "^2.5.9",
     "supercluster": "^7.1.5",
     "video-react": "^0.16.0"
   },
