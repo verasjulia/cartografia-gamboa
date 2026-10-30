@@ -19,3 +19,6 @@ src/assets/fonts
 \.DS_Store
 
 tags
+
+# Variáveis locais (ex.: token do Mapbox)
+.env.local

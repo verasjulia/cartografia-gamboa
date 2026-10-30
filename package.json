@@ -26,6 +26,7 @@
     "dompurify": "^3.4.13",
     "joi": "^17.1.1",
     "leaflet": "^1.0.3",
+    "mapbox-gl": "^3.34.1",
     "marked": "^18.0.10",
     "object-hash": "^3.0.0",
     "ramda": "^0.28.0",

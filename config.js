@@ -133,10 +133,13 @@ const config = {
       timeline: {
         eventRadius: 9,
       },
+      // Mapbox style URLs (teste-mapbox). Leaflet/Esri originals:
+      // default: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+      // satellite: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
       tiles: {
-        current: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-        default: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-        satellite: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        current: "mapbox://styles/mapbox/streets-v12",
+        default: "mapbox://styles/mapbox/streets-v12",
+        satellite: "mapbox://styles/mapbox/satellite-streets-v12"
       },
     },
     features: {

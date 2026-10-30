@@ -25,7 +25,8 @@
     left: 0px;
   }
 
-  .leaflet-container {
+  .leaflet-container,
+  .mapboxgl-map {
     height: 100%;
   }
 
