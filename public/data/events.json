@@ -1,1 +1,189 @@
-[]
+[
+  {
+    "id": "E1",
+    "description": "",
+    "date": "1/1/2016",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E2",
+    "description": "",
+    "date": "1/1/2016",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E3",
+    "description": "",
+    "date": "1/1/2019",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E4.1",
+    "description": "",
+    "date": "1/1/2020",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E4.2",
+    "description": "",
+    "date": "1/1/2020",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E5",
+    "description": "",
+    "date": "1/1/2021",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E6",
+    "description": "",
+    "date": "1/1/2022",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E7",
+    "description": "",
+    "date": "1/1/2024",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E8",
+    "description": "",
+    "date": "1/1/2024",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E9",
+    "description": "",
+    "date": "1/1/2024",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E10",
+    "description": "",
+    "date": "1/1/2025",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E11",
+    "description": "",
+    "date": "1/1/2025",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E12",
+    "description": "",
+    "date": "1/1/2026",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E13",
+    "description": "",
+    "date": "1/1/2026",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E14",
+    "description": "",
+    "date": "1/1/2026",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E15",
+    "description": "",
+    "date": "1/1/2026",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  },
+  {
+    "id": "E16",
+    "description": "",
+    "date": "1/1/2026",
+    "time": "",
+    "location": "",
+    "latitude": "",
+    "longitude": "",
+    "associations": [],
+    "sources": []
+  }
+]

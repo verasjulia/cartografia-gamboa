@@ -23,26 +23,34 @@ const config = {
       },
       timeline: {
         dimensions: {
-          height: 90,
-          contentHeight: 90,
+          height: 104,
+          contentHeight: 104,
         },
+        /**
+         * Years shown on the timeline, each one taking an equal slice of it.
+         * Years not listed take no space. Each event is drawn as a box with
+         * its code (the event "id") under its year, 2 boxes per column.
+         * Remove to use a continuous time scale instead.
+         */
+        years: [2016, 2019, 2020, 2021, 2022, 2024, 2025, 2026],
         range: {
           /**
            * Initial date range shown on map load.
            * Use [start, end] (strings in ISO 8601 format) for a fixed range.
            * Use undefined for a dynamic initial range based on the browser time.
+           * Without "Z", dates are read in the browser's local time.
            */
-          initial: ["2024-06-25T00:00:00.000Z", "2025-06-24T23:59:59.999Z"],
+          initial: ["2016-01-01T00:00:00", "2026-12-31T23:59:59"],
           /** The number of days to show when using a dynamic initial range */
           initialDaysShown: 31*12,
           limits: {
             /** Required. The lower bound of the range that can be accessed on the map. (ISO 8601) */
-            lower: "2024-06-25T00:00:00.000Z",
+            lower: "2016-01-01T00:00:00",
             /**
              * The upper bound of the range that can be accessed on the map.
              * Defaults to current browser time if undefined.
              */
-            upper: "2025-06-24T23:59:59.999Z",
+            upper: "2026-12-31T23:59:59",
           },
         },
       },

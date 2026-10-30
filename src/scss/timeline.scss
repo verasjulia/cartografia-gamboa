@@ -106,6 +106,52 @@
         stroke-dasharray: 1px 2px;
       }
 
+      // Timeline by years (YearBoxes)
+      .year-boxes {
+        .year-line {
+          stroke: $midwhite;
+          stroke-width: 2;
+        }
+
+        .year-dot {
+          fill: $midwhite;
+        }
+
+        .year-label {
+          fill: $offwhite;
+          font-size: $normal;
+          font-weight: 700;
+        }
+
+        .event-box {
+          cursor: pointer;
+
+          rect {
+            fill: rgba($black, 0.4);
+            stroke: $midwhite;
+            stroke-width: 1;
+          }
+
+          text {
+            fill: $offwhite;
+            font-size: $small;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+          }
+
+          &:hover rect {
+            stroke: $offwhite;
+            fill: rgba($midwhite, 0.25);
+          }
+
+          &.selected rect {
+            stroke: $yellow;
+            stroke-width: 2;
+          }
+        }
+      }
+
       .event {
         cursor: pointer;
         opacity: 0.7;

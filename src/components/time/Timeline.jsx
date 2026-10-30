@@ -13,6 +13,7 @@ import Clip from "./atoms/Clip";
 import Markers from "./atoms/Markers";
 import Events from "./atoms/Events";
 import Categories from "./Categories";
+import YearBoxes from "./YearBoxes";
 
 class Timeline extends Component {
   constructor(props) {
@@ -237,7 +238,6 @@ class Timeline extends Component {
     classes += app.narrative !== null ? " narrative-mode" : "";
     const { dims } = this.state;
     const contentHeight = { height: dims.contentHeight };
-    const { activeCategories: categories } = this.props;
 
     return (
       <div className={classes} onKeyDown={this.props.onKeyDown} tabIndex="1">
@@ -245,68 +245,91 @@ class Timeline extends Component {
           <div id={this.props.ui.dom.timeline} className="timeline">
             <div className="timeline-container">
               <svg ref={this.svgRef} width={dims.width} style={contentHeight}>
-                <Clip dims={dims} />
-                <Axis
-                  ticks={timeline.dimensions.ticks}
-                  dims={dims}
-                  extent={this.getTimeScaleExtent()}
-                  transitionDuration={this.state.transitionDuration}
-                  scaleX={this.state.scaleX}
-                />
-                <Categories
-                  dims={dims}
-                  getCategoryY={(category) =>
-                    this.getY({ category, project: null })
-                  }
-                  categories={categories}
-                  features={this.props.features}
-                  fallbackLabel={
-                    copy[this.props.app.language].timeline
-                      .default_categories_label
-                  }
-                />
-                <Markers
-                  dims={dims}
-                  selected={this.props.app.selected}
-                  getEventX={(ev) => this.getDatetimeX(ev.datetime)}
-                  getEventY={this.getStackedY}
-                  categories={categories}
-                  transitionDuration={this.state.transitionDuration}
-                  styles={this.props.ui.styles}
-                  features={this.props.features}
-                  eventRadius={this.props.ui.eventRadius}
-                />
-                <Events
-                  events={this.props.domain.events}
-                  projects={this.props.domain.projects}
-                  categories={categories}
-                  styleDatetime={this.styleDatetime}
-                  narrative={this.props.app.narrative}
-                  getDatetimeX={this.getDatetimeX}
-                  getY={this.getStackedY}
-                  getHighlights={(group) => {
-                    if (group === "None") {
-                      return [];
-                    }
-                    return categories.map((c) => c.group === group);
-                  }}
-                  getCategoryColor={this.props.methods.getCategoryColor}
-                  transitionDuration={this.state.transitionDuration}
-                  onSelect={this.onSelect}
-                  dims={dims}
-                  features={this.props.features}
-                  setLoading={this.props.actions.setLoading}
-                  setNotLoading={this.props.actions.setNotLoading}
-                  eventRadius={this.props.ui.eventRadius}
-                  filterColors={this.props.ui.filterColors}
-                  coloringSet={this.props.app.coloringSet}
-                  highlighted={this.props.app.highlighted}
-                />
+                {timeline.years && timeline.years.length > 0
+                  ? this.renderYearBoxes()
+                  : this.renderTimeScale()}
               </svg>
             </div>
           </div>
         </div>
       </div>
+    );
+  }
+
+  renderYearBoxes() {
+    return (
+      <YearBoxes
+        years={this.props.app.timeline.years}
+        events={this.props.domain.events}
+        selected={this.props.app.selected}
+        dims={this.state.dims}
+        onSelect={this.onSelect}
+      />
+    );
+  }
+
+  renderTimeScale() {
+    const { timeline } = this.props.app;
+    const { dims } = this.state;
+    const { activeCategories: categories } = this.props;
+
+    return (
+      <>
+        <Clip dims={dims} />
+        <Axis
+          ticks={timeline.dimensions.ticks}
+          dims={dims}
+          extent={this.getTimeScaleExtent()}
+          transitionDuration={this.state.transitionDuration}
+          scaleX={this.state.scaleX}
+        />
+        <Categories
+          dims={dims}
+          getCategoryY={(category) => this.getY({ category, project: null })}
+          categories={categories}
+          features={this.props.features}
+          fallbackLabel={
+            copy[this.props.app.language].timeline.default_categories_label
+          }
+        />
+        <Markers
+          dims={dims}
+          selected={this.props.app.selected}
+          getEventX={(ev) => this.getDatetimeX(ev.datetime)}
+          getEventY={this.getStackedY}
+          categories={categories}
+          transitionDuration={this.state.transitionDuration}
+          styles={this.props.ui.styles}
+          features={this.props.features}
+          eventRadius={this.props.ui.eventRadius}
+        />
+        <Events
+          events={this.props.domain.events}
+          projects={this.props.domain.projects}
+          categories={categories}
+          styleDatetime={this.styleDatetime}
+          narrative={this.props.app.narrative}
+          getDatetimeX={this.getDatetimeX}
+          getY={this.getStackedY}
+          getHighlights={(group) => {
+            if (group === "None") {
+              return [];
+            }
+            return categories.map((c) => c.group === group);
+          }}
+          getCategoryColor={this.props.methods.getCategoryColor}
+          transitionDuration={this.state.transitionDuration}
+          onSelect={this.onSelect}
+          dims={dims}
+          features={this.props.features}
+          setLoading={this.props.actions.setLoading}
+          setNotLoading={this.props.actions.setNotLoading}
+          eventRadius={this.props.ui.eventRadius}
+          filterColors={this.props.ui.filterColors}
+          coloringSet={this.props.app.coloringSet}
+          highlighted={this.props.app.highlighted}
+        />
+      </>
     );
   }
 }
@@ -330,6 +353,7 @@ function mapStateToProps(state) {
       timeline: {
         dimensions: selectors.selectDimensions(state),
         ticks: state.app.timeline.ticks,
+        years: state.app.timeline.years,
         range: selectors.selectTimeRange(state),
         rangeLimits: selectors.selectTimeRangeLimits(state),
       },

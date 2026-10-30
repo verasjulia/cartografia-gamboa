@@ -14,24 +14,6 @@ export const generateCardLayout = {
     return [
       [
         {
-          kind: "date",
-          title: "Reported Incident Date",
-          value: event.datetime || event.date || ``,
-        },
-        {
-          kind: "text",
-          title: "Location",
-          value: event.location || `—`,
-        },
-        {
-          kind: "text",
-          title: "id",
-          value: event.civId || `—`,
-        },
-      ],
-      [{ kind: "line-break", times: 0.4 }],
-      [
-        {
           kind: "text",
           title: "Summary",
           value: event.description || ``,
@@ -42,23 +24,6 @@ export const generateCardLayout = {
   },
   sourced: ({ event }) => {
     return [
-      [
-        {
-          kind: "date",
-          title: "Reported Incident Date",
-          value: event.datetime || event.date || ``,
-        },
-        {
-          kind: "text",
-          title: "Location",
-          value: event.location || `—`,
-        },
-        {
-          kind: "text",
-          title: "id",
-          value: event.civId || `—`,
-        },
-      ],
       [
         {
           kind: "text",
