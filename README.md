@@ -16,6 +16,15 @@
 * `npm run dev` para rodar localmente
 * `npm run build` para gerar os arquivos estáticos em `build/`
 
+## Publicação (GitHub Pages)
+
+A cada push na branch `dev`, o GitHub Actions monta o site (`npm run build`) e publica no GitHub Pages ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)). Isso precisa ser configurado uma vez, nas configurações do repositório no GitHub:
+
+* **Settings → Pages → Source:** "GitHub Actions";
+* **Settings → Secrets and variables → Actions:** um secret `MAPBOX_TOKEN` com o token público do Mapbox.
+
+O build usa caminhos relativos (`base: "./"` no [vite.config.js](vite.config.js)), então a pasta `build/` funciona em qualquer endereço: no GitHub Pages ou copiada para o servidor de uma instituição.
+
 ## Configurações
 
 <details>
