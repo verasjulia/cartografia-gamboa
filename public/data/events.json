@@ -19,12 +19,7 @@
       "lng": -38.522,
       "zoom": 15.8
     },
-    "multimidia": [
-      {
-        "tipo": "texto",
-        "titulo": "PDDU - Gamboa Zeis V + Parque Marinho + Área de Borda Marítima T4"
-      }
-    ]
+    "titulo": "PDDU - Gamboa Zeis V + Parque Marinho + Área de Borda Marítima T4"
   },
   {
     "id": "E2",
@@ -45,12 +40,7 @@
       "lng": -38.522,
       "zoom": 15.8
     },
-    "multimidia": [
-      {
-        "tipo": "texto",
-        "titulo": "Obra de manutenção no viaduto + Morte de pescador"
-      }
-    ]
+    "titulo": "Obra de manutenção no viaduto + Morte de pescador"
   },
   {
     "id": "E3",

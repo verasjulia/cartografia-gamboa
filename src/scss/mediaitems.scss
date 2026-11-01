@@ -1,17 +1,58 @@
-// Content of the event bars (multimídia on the right, sociograma on the left)
-.bar-title {
-  margin: 0;
-  padding: 16px 20px 8px;
-  font-size: $large;
-  font-weight: 700;
-  color: $black;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+// Event bars (multimídia on the right, sociograma on the left)
 
-  .bar-title-code {
-    margin-left: 8px;
-    color: $midwhite;
+// Black header band with the bar title and the close (X) button (BarHeader)
+.bar-header {
+  position: relative;
+  flex: none;
+  background: $black;
+  cursor: pointer;
+
+  .side-menu-burg {
+    position: absolute;
+    left: 8px;
+    top: 9px;
   }
+
+  .bar-title {
+    margin: 0;
+    padding: 10px 10px 10px 44px; // room for the close (X) button
+    font-size: $large;
+    font-weight: 400;
+    color: $offwhite;
+    text-transform: none; // as written ("Informações sobre o evento")
+  }
+
+  // X on the right of the band (barra sociograma)
+  &.close-right {
+    .side-menu-burg {
+      left: auto;
+      right: 8px;
+    }
+
+    .bar-title {
+      padding: 10px 44px 10px 20px;
+    }
+  }
+}
+
+// "Evento: ..." at the top of the bars, the same size as the bar title
+.event-name {
+  margin: 0 0 12px;
+  font-size: $large;
+  line-height: 1.5;
+  color: $black;
+}
+
+// Barra sociograma with several events selected: one block per event
+.event-block + .event-block {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid $lightwhite;
+}
+
+// Barra multimídia: its content area has no side padding of its own
+.card-stack.drawer .card-stack-content {
+  padding: 16px 10px 16px 20px;
 }
 
 .media-items {
@@ -63,30 +104,4 @@
     font-size: $normal;
     word-break: break-word;
   }
-}
-
-// Several events selected: one block per event, headed by its code
-.media-items + .media-items {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid $lightwhite;
-}
-
-.media-items-heading {
-  margin: 0;
-  font-size: $normal;
-  font-weight: 700;
-  color: $yellow;
-  letter-spacing: 0.05em;
-}
-
-// Barra multimídia (card stack): its header is dark and its content area has
-// no side padding of its own
-.card-stack-header .bar-title {
-  padding: 10px 10px 10px 44px; // room for the close (X) button
-  color: $offwhite;
-}
-
-.card-stack-content .media-items {
-  padding: 16px 10px 0 20px;
 }

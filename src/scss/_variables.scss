@@ -71,8 +71,14 @@ $narrative-info-desc-height: 153px;
 $timeline-height: 104px;
 $toolbar-dock-width: 180px; // toolbar block docked left of the timeline
 $drawer-tab-width: 28px;
+// Widths of the two drawers (barra sociograma on the left, barra multimídia
+// on the right), the same for both. Opened once: a quarter of the screen.
+// Opened twice (expanded): three quarters minus a tab and a gap, so that with
+// the other drawer open at a quarter, both drawers and both tabs stay visible.
+$drawer-width: 25vw;
+$drawer-expanded-width: calc(100vw * 3 / 4 - #{$drawer-tab-width} - 8px);
 
-// Drawer tab while the other drawer fills the map: muted grey, not clickable
+// Disabled drawer tab: muted grey, not clickable
 @mixin drawer-tab-disabled {
   background: #9e9e9e;
   color: #e0e0e0;

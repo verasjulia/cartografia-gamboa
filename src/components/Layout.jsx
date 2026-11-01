@@ -20,7 +20,7 @@ import Space from "./space/Space";
 import Search from "./controls/Search";
 import CardStack from "./controls/CardStack";
 import SideDrawer from "./controls/SideDrawer";
-import MediaItems, { hasItems } from "./controls/MediaItems";
+import MediaItems, { hasItems, EventName } from "./controls/MediaItems";
 import NarrativeControls from "./controls/NarrativeControls";
 
 import colors from "../common/global";
@@ -116,30 +116,29 @@ class Dashboard extends Component {
     );
   }
 
-  // Barra sociograma (left): shows the `sociograma` items of the selected event
+  // Barra sociograma (left): for each selected event, "Evento: ..." and its
+  // `sociograma` items; opens by itself when an event has sociograma items
   renderSociogramaBar() {
     const { selected, app } = this.props;
     const texts = copy[app.language].sociograma;
-    const withContent = selected.filter((event) => hasItems(event.sociograma));
 
     return (
       <SideDrawer
         title={texts.title}
-        code={selected.map((event) => event.civId).join(", ")}
-        hasContent={withContent.length > 0}
+        hasContent={selected.some((event) => hasItems(event.sociograma))}
         contentKey={selected.map((event) => event.id).join(",")}
+        isEmpty={selected.length === 0}
         emptyMessage={texts.empty}
-        isTabDisabled={this.state.expandedDrawer === "right"}
+        canExpand={this.state.expandedDrawer !== "right"}
         onExpandedChange={(isExpanded) =>
           this.setDrawerExpanded("left", isExpanded)
         }
       >
-        {withContent.map((event) => (
-          <MediaItems
-            key={event.id}
-            items={event.sociograma}
-            heading={withContent.length > 1 ? event.civId : null}
-          />
+        {selected.map((event) => (
+          <div key={event.id} className="event-block">
+            <EventName event={event} />
+            <MediaItems items={event.sociograma} />
+          </div>
         ))}
       </SideDrawer>
     );
@@ -357,7 +356,7 @@ class Dashboard extends Component {
           }
           onHighlight={this.handleHighlight}
           getCategoryColor={this.getCategoryColor}
-          isTabDisabled={this.state.expandedDrawer === "left"}
+          canExpand={this.state.expandedDrawer !== "left"}
           onExpandedChange={(isExpanded) =>
             this.setDrawerExpanded("right", isExpanded)
           }

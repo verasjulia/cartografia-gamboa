@@ -45,7 +45,7 @@
     top: 0;
     right: 0;
     bottom: $timeline-height;
-    width: 25vw; // a quarter of the screen width
+    width: $drawer-width;
     max-height: none;
     border-radius: 0;
     overflow: visible;
@@ -58,9 +58,9 @@
       box-shadow: -10px 0 38px rgba(0, 0, 0, 0.3);
     }
 
-    // Second step: three quarters of the screen width
+    // Second step: expanded (see $drawer-expanded-width)
     &.expanded {
-      width: calc(100vw * 3 / 4);
+      width: $drawer-expanded-width;
 
       .card-stack-header,
       .card-stack-content {
@@ -98,7 +98,7 @@
       background: $darkgrey;
     }
 
-    // Disabled while the other drawer fills the map
+    // Disabled while several events are selected (the bar only opens for one)
     &:disabled {
       @include drawer-tab-disabled;
     }

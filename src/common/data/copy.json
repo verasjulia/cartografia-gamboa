@@ -242,13 +242,13 @@
       "default_categories_label": ""
     },
     "sociograma": {
-      "title": "Sociograma",
-      "empty": "No sociogram content for the selected event."
+      "title": "Sociograma do evento",
+      "empty": "Selecione um evento na linha do tempo."
     },
     "cardstack": {
       "header": "selected events",
-      "title": "Multimídia",
-      "empty": "No multimedia content for the selected event.",
+      "title": "Informações sobre o evento",
+      "empty": "Selecione um evento na linha do tempo.",
       "timestamp": "Day and time",
       "unknown_location": "Unknown location",
       "estimated": "estimated",

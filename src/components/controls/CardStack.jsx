@@ -1,7 +1,8 @@
 import { createRef, Component } from "react";
 import { connect } from "react-redux";
 import { generateCardLayout, Card } from "./Card";
-import MediaItems, { hasItems } from "./MediaItems";
+import MediaItems, { hasItems, EventName } from "./MediaItems";
+import BarHeader from "./BarHeader";
 
 import * as selectors from "../../selectors";
 import { getFilterIdxFromColorSet } from "../../common/utilities";
@@ -16,7 +17,7 @@ class CardStack extends Component {
     this.refCardStack = createRef();
     this.refCardStackContent = createRef();
     // isManuallyOpen: drawer opened from its tab when no event is selected
-    // isExpanded: drawer widened from a quarter to three quarters of the screen
+    // isExpanded: drawer widened from a quarter to about three quarters of the screen
     // isDismissed: drawer collapsed with its close button; it stays collapsed
     // until the selection changes or its tab is clicked
     this.state = {
@@ -34,10 +35,13 @@ class CardStack extends Component {
     return this.props.selected.length > 1;
   }
 
-  // Opens by itself only when the selected event has multimídia content
+  // Opens by itself only when the selected event has a titulo or multimídia
+  // content
   hasContent() {
     const { selected } = this.props;
-    return selected.length === 1 && hasItems(selected[0].multimidia);
+    if (selected.length !== 1) return false;
+    const [event] = selected;
+    return !!event.titulo || hasItems(event.multimidia);
   }
 
   isOpen() {
@@ -57,11 +61,17 @@ class CardStack extends Component {
     });
   }
 
-  // Tab cycles: closed -> quarter width -> three quarters width -> closed
+  // Tab cycles: closed -> quarter width -> about three quarters -> closed
+  // While the other drawer is expanded, this one only opens at a quarter
+  // width: its tab toggles closed <-> quarter
+  canExpand() {
+    return this.props.canExpand !== false;
+  }
+
   onToggleTab() {
     if (!this.isOpen()) {
       this.setState({ isManuallyOpen: true, isDismissed: false });
-    } else if (!this.state.isExpanded) {
+    } else if (!this.state.isExpanded && this.canExpand()) {
       this.setState({ isExpanded: true });
     } else {
       this.onClose();
@@ -160,7 +170,12 @@ class CardStack extends Component {
 
   renderSelectedContent() {
     const [event] = this.props.selected;
-    return <MediaItems items={event.multimidia} />;
+    return (
+      <>
+        <EventName event={event} />
+        <MediaItems items={event.multimidia} />
+      </>
+    );
   }
 
   renderNarrativeCards() {
@@ -173,27 +188,17 @@ class CardStack extends Component {
   }
 
   renderCardStackHeader() {
-    const codes = this.props.selected.map((event) => event.civId).join(", ");
-
     return (
-      <div
-        id="card-stack-header"
-        className="card-stack-header"
-        onClick={this.onClose}
-      >
-        <button className="side-menu-burg is-active">
-          <span />
-        </button>
-        <h2 className="bar-title">
-          {copy[this.props.language].cardstack.title}
-          <span className="bar-title-code">{codes}</span>
-        </h2>
-      </div>
+      <BarHeader
+        title={copy[this.props.language].cardstack.title}
+        onClose={this.onClose}
+      />
     );
   }
 
   renderCardStackContent() {
-    if (!this.hasContent()) {
+    // the bar only shows content for a single selected event
+    if (this.props.selected.length !== 1) {
       return (
         <div className="card-stack-content card-stack-empty">
           <p>{copy[this.props.language].cardstack.empty}</p>
@@ -211,7 +216,7 @@ class CardStack extends Component {
   }
 
   renderDrawerTab(isOpen) {
-    const willClose = isOpen && this.state.isExpanded;
+    const willClose = isOpen && (this.state.isExpanded || !this.canExpand());
     const label = !isOpen
       ? "Open panel"
       : willClose
@@ -222,7 +227,7 @@ class CardStack extends Component {
         className="card-stack-tab"
         onClick={this.onToggleTab}
         aria-label={label}
-        disabled={this.props.isTabDisabled || this.hasSeveralSelected()}
+        disabled={this.hasSeveralSelected()}
       >
         <i className="material-icons">
           {willClose ? "chevron_right" : "chevron_left"}
@@ -273,7 +278,7 @@ class CardStack extends Component {
         }`}
       >
         {this.renderDrawerTab(isOpen)}
-        {selected.length > 0 ? this.renderCardStackHeader() : null}
+        {this.renderCardStackHeader()}
         {this.renderCardStackContent()}
       </div>
     );

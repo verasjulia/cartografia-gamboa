@@ -46,6 +46,8 @@ function createEventSchema(custom) {
       colour: Joi.string().allow(""),
 
       /* Gamboa Ocean */
+      // event name, shown as "Evento: ..." in both bars
+      titulo: Joi.string().allow(""),
       // Mapbox style layer ids shown while the event is selected
       camadas: Joi.array().items(Joi.string()),
       // map view applied when the event is selected

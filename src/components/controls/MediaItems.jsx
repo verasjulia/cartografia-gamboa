@@ -90,12 +90,15 @@ function MediaItem({ item }) {
   }
 }
 
-// `heading` (the event code) is shown when several events are selected
-const MediaItems = ({ items, heading }) => {
+// "Evento: <titulo>" at the top of the bars; the event code if no titulo
+export function EventName({ event }) {
+  return <p className="event-name">Evento: {event.titulo || event.civId}</p>;
+}
+
+const MediaItems = ({ items }) => {
   if (!hasItems(items)) return null;
   return (
     <div className="media-items">
-      {heading && <h4 className="media-items-heading">{heading}</h4>}
       {items.map((item, idx) => (
         <MediaItem key={idx} item={item} />
       ))}

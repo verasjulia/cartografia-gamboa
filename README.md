@@ -46,8 +46,10 @@ Os eventos ficam em [public/data/events.json](public/data/events.json). Cada um 
 
 * as camadas listadas em `camadas` aparecem no mapa. Camadas de eventos não acionados ficam ocultas; as que nenhum evento lista (mapa base, `bens-tombados`…) não mudam;
 * se `MOVE_MAP_ON_EVENT_SELECT` estiver `true` no `config.js`, o mapa vai para a `vista` (hoje está `false`: a vista fica solta);
-* a **barra multimídia** (direita) abre se o evento tiver `multimidia` e for o **único** acionado. Com dois ou mais eventos acionados ela fica recolhida, e a aba dela fica desativada;
-* a **barra sociograma** (esquerda) abre se o evento tiver `sociograma`.
+* a **barra multimídia** ("Informações sobre o evento", à direita) abre se o evento tiver `titulo` ou `multimidia` e for o **único** acionado. Com dois ou mais eventos acionados ela fica recolhida, e a aba dela fica desativada;
+* a **barra sociograma** ("Sociograma do evento", à esquerda) abre se o evento tiver `sociograma`.
+
+As duas barras mostram no topo "Evento: " seguido do `titulo` do evento (ou do código, se não houver `titulo`). O X do cabeçalho de cada barra só recolhe a barra.
 
 Vários eventos podem ficar acionados ao mesmo tempo: cada clique aciona o evento ou, se ele já estiver acionado, desaciona. As camadas de todos os eventos acionados aparecem juntas, e cada uma só sai quando o seu evento é desacionado. Com `MOVE_MAP_ON_EVENT_SELECT` ligado, o mapa vai para a `vista` do evento que acabou de ser acionado; ao desacionar, fica onde está. Os eventos acionados ficam com a borda vermelha.
 
@@ -56,6 +58,7 @@ O X da barra multimídia só recolhe a barra: os eventos e as camadas continuam 
 ```json
 {
   "id": "E1",
+  "titulo": "PDDU - Gamboa Zeis V + Parque Marinho + Área de Borda Marítima T4",
   "description": "",
   "date": "3/15/2016",
   "latitude": "",
@@ -79,7 +82,7 @@ O X da barra multimídia só recolhe a barra: os eventos e as camadas continuam 
 
 * `date` segue o formato `M/D/AAAA` (mês/dia/ano). Só o ano define a coluna na timeline; a data define a ordem dentro do ano.
 * `camadas` são os nomes (IDs) das camadas no estilo do Mapbox Studio. Deixe essas camadas **ocultas** no Studio. Um nome que não existe no estilo gera um aviso no console do navegador.
-* Os campos `camadas`, `vista`, `multimidia` e `sociograma` são opcionais.
+* Os campos `titulo`, `camadas`, `vista`, `multimidia` e `sociograma` são opcionais.
 * `video` aceita arquivo (`.mp4`) ou link do YouTube/Vimeo. `sociograma` aceita os mesmos tipos de item que `multimidia`.
 * Arquivos de mídia vão em `public/midia/` e são referenciados **sem a barra inicial** (`midia/e1/foto.jpg`), para funcionar também no GitHub Pages.
 
